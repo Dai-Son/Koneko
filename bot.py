@@ -1,6 +1,8 @@
+from this import d
 import discord
 from discord.ext import commands
 import json
+import random
 
 with open('settings.json', 'r', encoding='utf8') as jfile:
     jdata = json.load(jfile)
@@ -26,5 +28,16 @@ async def on_member_remove(member):
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'{round(bot.latency*1000)} ms')
+
+@bot.command()
+async def hello(ctx):
+    pic = discord.File(jdata['hello_pic'])
+    await ctx.send(file= pic)
+
+@bot.command()
+async def rdmpic(ctx):
+    random_pic = random.choice(jdata['random_pic'])
+    rpic = discord.File(random_pic)
+    await ctx.send(file= rpic)
 
 bot.run(jdata['TOKEN'])
