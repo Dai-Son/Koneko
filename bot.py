@@ -1,8 +1,9 @@
-from this import d
+import asyncio
 import discord
 from discord.ext import commands
 import json
 import random
+import os
 
 with open('settings.json', 'r', encoding='utf8') as jfile:
     jdata = json.load(jfile)
@@ -13,7 +14,7 @@ bot = commands.Bot(command_prefix='.w.',intents=intents)
 
 @bot.event
 async def on_ready():
-    print(">> Meow Helo <<")
+    print(">> Meow Hello <<")
 
 @bot.event
 async def on_member_join(member):
@@ -25,19 +26,13 @@ async def on_member_remove(member):
     channel = bot.get_channel(int(jdata['Test_Channel']))
     await channel.send(f'{member} 離開了!')
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send(f'{round(bot.latency*1000)} ms')
+async def load():
+    for filename in os.listdir('./commands'):
+        if filename.endswith('.py'):
+            await bot.load_extension(f'commands.{filename[:-3]}')
 
-@bot.command()
-async def hello(ctx):
-    pic = discord.File(jdata['hello_pic'])
-    await ctx.send(file= pic)
+async def main():
+    await load()
+    await bot.start(jdata['TOKEN'])
 
-@bot.command()
-async def rdmpic(ctx):
-    random_pic = random.choice(jdata['random_pic'])
-    rpic = discord.File(random_pic)
-    await ctx.send(file= rpic)
-
-bot.run(jdata['TOKEN'])
+asyncio.run(main())

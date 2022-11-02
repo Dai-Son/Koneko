@@ -3,5 +3,5 @@
     "Test_Channel":"1037043949837221929",
     
     "hello_pic":"./pics/hello.jpg",
-    "random_pic":["/pics/hello.jpg","/pics/thumbsup.jpg"]
+    "random_pic":["./pics/hello.jpg","./pics/thumbsup.jpg"]
 }
